@@ -2,6 +2,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.KeyEvent;
+import java.awt.KeyAdapter;
+
 
 public class Game extends Canvas implements Runnable{
     
@@ -16,11 +19,12 @@ public class Game extends Canvas implements Runnable{
     private Handler handler;
 
     public Game(){
+        handler = new Handler();
+        this.addKeyListener(new KeyInput(handler));
+
         new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
 
-        handler = new Handler();
-
-        handler.addObject(new Player(100, 100, ID.Player));
+        handler.addObject(new Player(WIDTH / 2 - 32, HEIGHT / 2 - 32, ID.Player));
     }
 
     public synchronized void start() {
@@ -89,7 +93,7 @@ public class Game extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.RED);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
